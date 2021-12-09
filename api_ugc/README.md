@@ -18,3 +18,10 @@ REQUEST EXAMPLE:
   "some_client_data": "some_client_data"
 }
 ```
+
+Минимальная инфраструктура:
+
+~~~ 
+docker-compose -f infra/docker-compose.min.yml up -d
+docker-compose -f infra/docker-compose.min.yml down -v
+~~~
