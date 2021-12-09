@@ -11,6 +11,12 @@ class Payload(BaseModel):
     event_data: Optional[str]
     event_timestamp: int
 
+    def dict(self, *args, **kwargs):
+        result: dict = super().dict(*args, **kwargs)
+        result["movie_id"] = str(result["movie_id"])
+        result["user_id"] = str(result["user_id"])
+        return result
+
 
 class RequestForUGS(BaseModel):
     payload: Payload
