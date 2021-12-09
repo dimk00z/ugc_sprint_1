@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
 from core.logger import LOGGING
+from core.settings import get_settings
 
 app = FastAPI(
     docs_url="/api/openapi",
@@ -15,12 +16,13 @@ app = FastAPI(
     description="Сбор различной аналитики",
     version="1.0.0",
 )
-app.include_router(ugc_loader.router, prefix="/api/v1/film", tags=["UGC Loader"])
+app.include_router(ugc_loader.router, prefix="/api/v1", tags=["UGC Loader"])
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
-        port=8000,
+        host=get_settings().app.host,
+        port=get_settings().app.port,
         log_config=LOGGING,
         log_level=logging.DEBUG,
+        reload=get_settings().app.should_reload,
     )
