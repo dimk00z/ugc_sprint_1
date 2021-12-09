@@ -1,4 +1,3 @@
-from datetime import timedelta
 from functools import lru_cache
 from typing import Optional
 
@@ -6,9 +5,10 @@ from pydantic import BaseSettings, Field
 
 
 class AppSettings(BaseSettings):
-    host: str = Field("127.0.0.1", env="HOST")
+    host: str = Field("0.0.0.0", env="HOST")
     port: int = Field(8000, env="PORT")
     is_debug: bool = Field(True, env="DEBUG")
+    should_reload: bool = Field(True, env="SHOULD_RELOAD")
 
     jwt_algorithms = Field("HS256", env="JWT_SECRET_KEY")  # jwt
     jwt_public_key = Field("jwt_public_key", env="JWT_SECRET_KEY")
@@ -16,7 +16,9 @@ class AppSettings(BaseSettings):
 
 class KafkaSettings(BaseSettings):
     host: str = Field("127.0.0.1", env="KAFKA_HOST")
-    port: int = Field(6379, env="KAFKA_PORT")
+    port: int = Field(9092, env="KAFKA_PORT")
+    topic: str = Field("movie_topic", env="KAFKA_TOPIC")
+    retries_number: int = Field(5, env="KAFKA_RETRIES_NUMBER")
 
 
 class Settings(BaseSettings):
@@ -25,5 +27,5 @@ class Settings(BaseSettings):
 
 
 @lru_cache
-def get_settings():
+def get_settings() -> Settings:
     return Settings()
