@@ -2,5 +2,4 @@ fastapi==0.70.0
 uvicorn==0.16.0
 pydantic==1.8.2
 orjson==3.6.5
-kafka-python==2.0.2
-backoff==1.11.1
+aiokafka==0.7.2
