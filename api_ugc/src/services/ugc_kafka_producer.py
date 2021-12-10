@@ -38,7 +38,9 @@ class UGCKafkaProducer:
         was_produced = False
         try:
             await producer.start()
-            await producer.send(self.topic, request_for_ugs.dict(), key=UGCKafkaProducer.get_key())
+            await producer.send(
+                self.topic, request_for_ugs.dict(), key=UGCKafkaProducer.get_key()
+            )
             was_produced = True
         except KafkaError as kafka_error:
             logger.exception(kafka_error)
@@ -50,7 +52,9 @@ class UGCKafkaProducer:
         partitions = await producer.partitions_for(self.topic)
         partition = choice(tuple(partitions))
         await producer.send_batch(batch, self.topic, partition=partition)
-        logger.info("%d messages sent to partition %d" % (batch.record_count(), partition))
+        logger.info(
+            "%d messages sent to partition %d" % (batch.record_count(), partition)
+        )
 
     async def batch_produce(self, requests: list[RequestForUGS]):
         producer = self.get_producer()
