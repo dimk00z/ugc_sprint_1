@@ -16,7 +16,10 @@ app = FastAPI(
     description="Сбор различной аналитики",
     version="1.0.0",
 )
+
+
 app.include_router(ugc_loader.router, prefix="/api/v1", tags=["UGC Loader"])
+
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",

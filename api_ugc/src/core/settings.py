@@ -1,5 +1,4 @@
 from functools import lru_cache
-from typing import Optional
 
 from pydantic import BaseSettings, Field
 
@@ -16,7 +15,7 @@ class AppSettings(BaseSettings):
 
 class KafkaSettings(BaseSettings):
     host: str = Field("127.0.0.1", env="KAFKA_HOST")
-    port: int = Field(9092, env="KAFKA_PORT")
+    port: int = Field(29092, env="KAFKA_PORT")
     topic: str = Field("movie_topic", env="KAFKA_TOPIC")
     retries_number: int = Field(5, env="KAFKA_RETRIES_NUMBER")
 
