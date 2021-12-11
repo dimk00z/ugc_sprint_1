@@ -9,6 +9,8 @@ services:
       - "zookeeper_data:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - ugc
   kafka:
     image: docker.io/bitnami/kafka:3
     ports:
@@ -22,7 +24,8 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,PLAINTEXT_HOST://:29092
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-    
+    networks:
+      - ugc
     depends_on:
       - zookeeper
 
@@ -31,3 +34,10 @@ volumes:
     driver: local
   kafka_data:
     driver: local
+
+
+
+networks:
+  ugc:
+    name: ugc
+    driver: bridge

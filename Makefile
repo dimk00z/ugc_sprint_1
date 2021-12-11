@@ -3,27 +3,13 @@ export PYTHONPATH=.
 format:
 	pre-commit run -a
 
-# TODO update make file
+start_api_min:
+	docker-compose -f api_ugc/infra/docker-compose.min.yml up -d
+	docker-compose -f api_ugc/docker-compose.api_ugc.yaml up -d
 
-# export PYTHONPATH=auth/src
-# export DOCKER_COMPOSE_FILES=-f docker-compose.yml -f docker-compose.api.yml
+stop_api_min:
+	docker-compose -f api_ugc/docker-compose.api_ugc.yaml down -v
+	docker-compose -f api_ugc/infra/docker-compose.min.yml down -v
+	
 
 
-# build:
-# 	docker-compose $(DOCKER_COMPOSE_FILES) build
-
-# start:
-# 	docker-compose $(DOCKER_COMPOSE_FILES) up -d
-
-# stop:
-# 	docker-compose $(DOCKER_COMPOSE_FILES) down
-
-# restart:
-# 	docker-compose $(DOCKER_COMPOSE_FILES) down
-# 	docker-compose $(DOCKER_COMPOSE_FILES) up -d
-
-# test:
-# 	pytest --disable-pytest-warnings -v -s tests/
-
-# coverage:
-# 	pytest --disable-pytest-warnings --cov-report html --cov=auth -v -s tests/

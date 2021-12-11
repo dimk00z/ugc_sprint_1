@@ -1,6 +1,21 @@
 # API UGC
 
-REQUEST EXAMPLE:
+## Описание
+
+Реализован API для загрузки сообщений в Kafka
+
+### Endpoints
+
+`http://{ip-address}:8000/api/openapi` - Генерированное описание OpenAPI
+
+`http://{ip-address}:8000/api/v1/produce` - пишет сообщение об одном событии
+
+`http://{ip-address}:8000/api/v1/batch_produce` - пишет массив сообщений об одном событии
+
+`http://{ip-address}:8000//api/v1/random_batch_produce?batch_count=1000` - "ручка" для дебага, пишет batch_count валидных собщений, включена/выключена по переменной окружения `DEBUG=True|False`
+
+
+### Формат сообщения
 
 ```json
 {
@@ -19,9 +34,19 @@ REQUEST EXAMPLE:
 }
 ```
 
-Минимальная инфраструктура:
+### Минимальная инфраструктура
 
-~~~ 
+Kafka:
+
+```bash
 docker-compose -f infra/docker-compose.min.yml up -d
 docker-compose -f infra/docker-compose.min.yml down -v
-~~~
+```
+
+API:
+
+```bash
+cp .env_example .env
+docker-compose -f docker-compose.api_ugc.yaml up -d
+docker-compose -f docker-compose.api_ugc.yaml down -v
+```
