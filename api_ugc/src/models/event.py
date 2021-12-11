@@ -20,7 +20,7 @@ class Payload(BaseModel):
         return result
 
 
-class RequestForUGS(BaseModel):
+class EventForUGS(BaseModel):
     payload: Payload
     language: Optional[str]
     timezone: Optional[str]
@@ -29,8 +29,8 @@ class RequestForUGS(BaseModel):
     client_data: Optional[str]
 
 
-def create_random_request() -> RequestForUGS:
-    request: RequestForUGS = RequestForUGS(
+def create_random_event() -> EventForUGS:
+    request: EventForUGS = EventForUGS(
         language=choice(("ru", "en", "fr")),
         timezone=f"gmt+{randint(0,12)}",
         ip=f"{randint(0,254)}.{randint(0,254)}.{randint(0,254)}.{randint(0,254)}",
