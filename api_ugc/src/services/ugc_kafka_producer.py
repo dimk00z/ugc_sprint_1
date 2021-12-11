@@ -51,7 +51,9 @@ class UGCKafkaProducer:
         partitions = await producer.partitions_for(self.topic)
         partition = choice(tuple(partitions))
         await producer.send_batch(batch, self.topic, partition=partition)
-        logger.info("%d messages sent to partition %d" % (batch.record_count(), partition))
+        logger.info(
+            "%d messages sent to partition %d" % (batch.record_count(), partition)
+        )
 
     async def batch_produce(self, requests: list[EventForUGS]):
         producer = self.get_producer()
