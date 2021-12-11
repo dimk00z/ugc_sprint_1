@@ -3,7 +3,7 @@ from http import HTTPStatus
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query
-from models.event import EventForUGS, create_random_event
+from models.event import EventForUGS
 
 from core.settings import get_settings
 from services.ugc_kafka_producer import ugc_kafka_producer
@@ -49,6 +49,8 @@ async def batch_inner(events_for_ugs: list[EventForUGS]):
 
 
 if get_settings().app.is_debug:
+    from models.event import create_random_event
+
     # WARNING only for debug
     @router.post(
         "/random_batch_produce",
