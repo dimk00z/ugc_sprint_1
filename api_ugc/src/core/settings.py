@@ -11,8 +11,7 @@ class AppSettings(BaseSettings):
 
 
 class KafkaSettings(BaseSettings):
-    host: str = Field("127.0.0.1", env="KAFKA_HOST")
-    port: int = Field(29092, env="KAFKA_PORT")
+    hosts: list[str] = Field(["127.0.0.1:29092"], env="KAFKA_HOSTS")
     topic: str = Field("movie_topic", env="KAFKA_TOPIC")
 
 

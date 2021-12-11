@@ -38,9 +38,18 @@
 
 Kafka:
 
+Минимальная сборка:
+
 ```bash
 docker-compose -f infra/docker-compose.min.yml up -d
 docker-compose -f infra/docker-compose.min.yml down -v
+```
+
+Инфраструктурная сборка:
+
+```bash
+docker-compose -f infra/docker-compose.infra.yml up -d
+docker-compose -f infra/docker-compose.infra.yml down -v
 ```
 
 API:

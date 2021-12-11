@@ -23,14 +23,13 @@ class UGCKafkaProducer:
 
     def get_producer(self) -> AIOKafkaProducer:
         return AIOKafkaProducer(
-            bootstrap_servers=f"{self.host}:{self.port}",
+            bootstrap_servers=self.hosts,
             value_serializer=UGCKafkaProducer.serializer,
             compression_type="gzip",
         )
 
     def __init__(self) -> None:
-        self.host = get_settings().kafka_settings.host
-        self.port = get_settings().kafka_settings.port
+        self.hosts = ",".join(get_settings().kafka_settings.hosts)
         self.topic = get_settings().kafka_settings.topic
 
     async def produce(self, request_for_ugs: EventForUGS):
@@ -52,9 +51,7 @@ class UGCKafkaProducer:
         partitions = await producer.partitions_for(self.topic)
         partition = choice(tuple(partitions))
         await producer.send_batch(batch, self.topic, partition=partition)
-        logger.info(
-            "%d messages sent to partition %d" % (batch.record_count(), partition)
-        )
+        logger.info("%d messages sent to partition %d" % (batch.record_count(), partition))
 
     async def batch_produce(self, requests: list[EventForUGS]):
         producer = self.get_producer()
