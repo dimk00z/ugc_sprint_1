@@ -93,6 +93,14 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+  movies-redis:
+    container_name: movies-redis
+    image: redis:6.2.6-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - ugc
+
 # TODO Добавить clickhouse
 
 networks:

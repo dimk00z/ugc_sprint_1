@@ -17,6 +17,10 @@ app = FastAPI(
     version="1.0.0",
 )
 
+if get_settings().app.should_check_auth:
+    from core.middleware import apply_middleware
+
+    apply_middleware(app=app)
 
 app.include_router(ugc_loader.router, prefix="/api/v1", tags=["UGC Loader"])
 
