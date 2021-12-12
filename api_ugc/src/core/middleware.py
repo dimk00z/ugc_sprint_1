@@ -28,7 +28,8 @@ def apply_middleware(app: FastAPI):
                 return await call_next(request)
 
         return JSONResponse(
-            status_code=HTTPStatus.UNAUTHORIZED, content={"Error": "Authorization error"}
+            status_code=HTTPStatus.UNAUTHORIZED,
+            content={"Error": "Authorization error"},
         )
 
 
