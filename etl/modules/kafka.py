@@ -4,7 +4,6 @@ import backoff
 
 
 class ETLKafkaConsumer:
-
     def __init__(self, host: str, topic: str, group_id: str):
         self.host = host
         self.topic = topic
@@ -13,7 +12,5 @@ class ETLKafkaConsumer:
     @backoff.on_exception(backoff.expo, KafkaError)
     def get_consumer(self):
         return KafkaConsumer(
-            self.topic,
-            bootstrap_servers=self.host,
-            group_id=self.group_id
+            self.topic, bootstrap_servers=self.host, group_id=self.group_id
         )

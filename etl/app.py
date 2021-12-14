@@ -22,17 +22,17 @@ def transform(data):
             else:
                 payload[key] = val
     except Exception as transform_ex:
-        logging.error('Error while transforming data: {0}'.format(transform_ex))
+        logging.error("Error while transforming data: {0}".format(transform_ex))
     return payload
 
 
 def load(client: Client, data: dict = {}):
     try:
         table = get_settings().ch_settings.table
-        client.execute(f'INSERT INTO {table} VALUES', data, types_check=True)
+        client.execute(f"INSERT INTO {table} VALUES", data, types_check=True)
         return True
     except KeyError as ch_err:
-        logging.error('Error while loading data into Clickhouse: {0}'.format(ch_err))
+        logging.error("Error while loading data into Clickhouse: {0}".format(ch_err))
 
 
 def run(kafka_consumer: KafkaConsumer, ch_driver: Client, batch_size: int = 100):
@@ -49,13 +49,13 @@ def run(kafka_consumer: KafkaConsumer, ch_driver: Client, batch_size: int = 100)
                 continue
 
         except KafkaError as kafka_error:
-            logging.error('Got Kafka error: {0}'.format(kafka_error))
+            logging.error("Got Kafka error: {0}".format(kafka_error))
 
         except Error as ch_error:
-            logging.error('Got ClickHouse error: {0}'.format(ch_error))
+            logging.error("Got ClickHouse error: {0}".format(ch_error))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     settings = get_settings()
     consumer = ETLKafkaConsumer(**settings.kafka_settings.dict())
     ch_driver = ETLClickhouseDriver(settings.ch_settings.host)

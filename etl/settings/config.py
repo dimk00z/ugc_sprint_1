@@ -3,20 +3,20 @@ from functools import lru_cache
 
 
 class AppSettings(BaseSettings):
-    host: str = Field('localhost', env='APP_HOST')
-    port: int = Field(5000, env='APP_PORT')
-    batch_size: int = Field(100, env='BATCH_SIZE')
+    host: str = Field("localhost", env="APP_HOST")
+    port: int = Field(5000, env="APP_PORT")
+    batch_size: int = Field(100, env="BATCH_SIZE")
 
 
 class KafkaSettings(BaseSettings):
-    host: list[str] = Field(['localhost:29092'], env='KAFKA_HOST')
-    topic: str = Field('movie_topic', env='KAFKA_TOPIC')
-    group_id: str = Field('', env='KAFKA_GROUP_ID')
+    host: list[str] = Field(["localhost:29092"], env="KAFKA_HOST")
+    topic: str = Field("movie_topic", env="KAFKA_TOPIC")
+    group_id: str = Field("", env="KAFKA_GROUP_ID")
 
 
 class ClickHouseSettings(BaseSettings):
-    host: str = Field('localhost', env='CH_HOST')
-    table: str = Field('movies', env='CH_TABLE')
+    host: str = Field("localhost", env="CH_HOST")
+    table: str = Field("movies", env="CH_TABLE")
 
 
 class Settings(BaseSettings):
