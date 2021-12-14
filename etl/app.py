@@ -1,10 +1,10 @@
 import json
 import logging
 
-from clickhouse_driver import Client
 from clickhouse_driver.errors import Error
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
+from models.event import EventForUGS
 from modules.ch import ETLClickhouseDriver
 from modules.kafka import ETLKafkaConsumer
 
@@ -13,28 +13,19 @@ from settings.logging import LOGGING
 
 
 def transform(data):
-    payload = {}
     try:
-        for key, val in data.items():
-            if isinstance(val, dict):
-                payload = payload | val
-            else:
-                payload[key] = val
+        payload = EventForUGS(**data).dict()
+        payload = payload | payload["payload"]
+        payload.pop("payload")
     except Exception as transform_ex:
         logging.error("Error while transforming data: {0}".format(transform_ex))
-    return payload
+    return payload or {}
 
 
-def load(client: Client, data: dict = {}):
-    try:
-        table = get_settings().ch_settings.table
-        client.execute(f"INSERT INTO {table} VALUES", data, types_check=True)
-        return True
-    except KeyError as ch_err:
-        logging.error("Error while loading data into Clickhouse: {0}".format(ch_err))
-
-
-def run(kafka_consumer: KafkaConsumer, ch_driver: Client, batch_size: int = 100):
+def run(
+    kafka_consumer: KafkaConsumer, ch_driver: ETLClickhouseDriver, batch_size: int = 100
+):
+    ch_driver.init_ch_database()
     while True:
         try:
             batch = []
@@ -56,6 +47,6 @@ def run(kafka_consumer: KafkaConsumer, ch_driver: Client, batch_size: int = 100)
 
 if __name__ == "__main__":
     settings = get_settings()
-    consumer = ETLKafkaConsumer(**settings.kafka_settings.dict())
+    consumer = ETLKafkaConsumer(**settings.kafka_settings.dict()).get_consumer()
     ch_driver = ETLClickhouseDriver(settings.ch_settings.host)
     run(consumer, ch_driver, batch_size=settings.app.batch_size)

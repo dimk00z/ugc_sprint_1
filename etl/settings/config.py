@@ -16,8 +16,8 @@ class KafkaSettings(BaseSettings):
 
 
 class ClickHouseSettings(BaseSettings):
-    host: str = Field("localhost", env="CH_HOST")
-    table: str = Field("movies", env="CH_TABLE")
+    host: str = Field("localhost:9000", env="CH_HOST")
+    db: str = Field("movies", env="CH_DB")
 
 
 class Settings(BaseSettings):
