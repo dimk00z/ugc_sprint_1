@@ -1,32 +1,30 @@
-import os
-import logging
+from pydantic import BaseSettings, Field
+from functools import lru_cache
 
-BATCH_SIZE = 100
 
-KAFKA_HOST = os.getenv('KAFKA_HOST', ['localhost'])
-KAFKA_TOPIC = os.getenv('KAFKA_TOPIC', '')
-KAFKA_GROUP_ID = os.getenv('KAFKA_GROUP_ID')
+class AppSettings(BaseSettings):
+    host: str = Field('localhost', env='APP_HOST')
+    port: int = Field(5000, env='APP_PORT')
+    batch_size: int = Field(100, env='BATCH_SIZE')
 
-CH_HOST = os.getenv('CH_HOST', 'localhost')
-CH_TABLE = os.getenv('CH_TABLE', 'movies')
 
-log_config = {
-    "version": 1,
-    "root": {
-        "handlers": ["console"],
-        "level": "DEBUG"
-    },
-    "handlers": {
-        "console": {
-            "formatter": "std_out",
-            "class": "logging.StreamHandler",
-            "level": "DEBUG"
-        }
-    },
-    "formatters": {
-        "std_out": {
-            "format": "%(asctime)s : %(levelname)s : %(module)s : %(funcName)s : %(lineno)d : (Process Details : (%(process)d, %(processName)s), Thread Details : (%(thread)d, %(threadName)s))\nLog : %(message)s",
-            "datefmt": "%d-%m-%Y %I:%M:%S"
-        }
-    },
-}
+class KafkaSettings(BaseSettings):
+    host: list[str] = Field(['localhost:29092'], env='KAFKA_HOST')
+    topic: str = Field('movie_topic', env='KAFKA_TOPIC')
+    group_id: str = Field('', env='KAFKA_GROUP_ID')
+
+
+class ClickHouseSettings(BaseSettings):
+    host: str = Field('localhost', env='CH_HOST')
+    table: str = Field('movies', env='CH_TABLE')
+
+
+class Settings(BaseSettings):
+    app = AppSettings()
+    kafka_settings = KafkaSettings()
+    ch_settings = ClickHouseSettings()
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()

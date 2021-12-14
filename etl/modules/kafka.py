@@ -1,23 +1,19 @@
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
 import backoff
-from etl.config import (
-    KAFKA_HOST,
-    KAFKA_GROUP_ID,
-    KAFKA_TOPIC
-)
 
 
 class ETLKafkaConsumer:
 
-    def __init__(self):
-        self.host = KAFKA_HOST
-        self.topic = KAFKA_TOPIC
-        self.group_id = KAFKA_GROUP_ID
+    def __init__(self, host: str, topic: str, group_id: str):
+        self.host = host
+        self.topic = topic
+        self.group_id = group_id
 
     @backoff.on_exception(backoff.expo, KafkaError)
     def get_consumer(self):
         return KafkaConsumer(
             self.topic,
-            bootstrap_servers=self.host
+            bootstrap_servers=self.host,
+            group_id=self.group_id
         )
