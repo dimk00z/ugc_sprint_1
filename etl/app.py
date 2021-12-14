@@ -1,14 +1,13 @@
-import logging
 import json
+import logging
 
-from kafka import KafkaConsumer
 from clickhouse_driver import Client
-
-from kafka.errors import KafkaError
 from clickhouse_driver.errors import Error
-
-from modules.kafka import ETLKafkaConsumer
+from kafka import KafkaConsumer
+from kafka.errors import KafkaError
 from modules.ch import ETLClickhouseDriver
+from modules.kafka import ETLKafkaConsumer
+
 from settings.config import get_settings
 from settings.logging import LOGGING
 

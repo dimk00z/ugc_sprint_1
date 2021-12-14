@@ -1,6 +1,6 @@
+import backoff
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
-import backoff
 
 
 class ETLKafkaConsumer:
