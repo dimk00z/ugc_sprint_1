@@ -9,7 +9,8 @@ from clickhouse_driver.errors import Error
 
 from modules.kafka import ETLKafkaConsumer
 from modules.ch import ETLClickhouseDriver
-from config import get_settings
+from settings.config import get_settings
+from settings.logging import LOGGING
 
 
 def transform(data):
