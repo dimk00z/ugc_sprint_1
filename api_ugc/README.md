@@ -49,6 +49,7 @@ docker-compose -f ../ugc_infra/docker-compose.min.yml down -v
 ```bash
 docker-compose -f ../ugc_infra/docker-compose.infra.yml up -d
 docker-compose -f ../ugc_infra/docker-compose.infra.yml down -v
+
 ```
 
 API:

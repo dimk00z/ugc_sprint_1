@@ -148,9 +148,6 @@ services:
       - zookeeper-2
       - zookeeper-3
 
-
-
-
 networks:
   ugc:
     name: ugc
