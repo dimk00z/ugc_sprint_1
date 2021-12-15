@@ -12,7 +12,7 @@
 Подробное описание в директории [api_ugc](https://github.com/dimk00z/ugc_sprint_1/tree/main/api_ugc)
 
 3. Реализован ETL загрузки сообщений из Kafka в ClickHouse.
-Подробное описание в директории [dev](https://github.com/dimk00z/ugc_sprint_1/tree/main/etl)
+Подробное описание в директории [ETL](https://github.com/dimk00z/ugc_sprint_1/tree/main/etl)
 
 
 ### Выполнили
