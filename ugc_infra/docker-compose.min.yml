@@ -39,7 +39,18 @@ services:
     networks:
       - ugc
 
-# TODO Добавить clickhouse
+  clickhouse-node1:
+    image: yandex/clickhouse-server:20.4
+    container_name: clickhouse-node1
+    hostname: clickhouse-node1
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - ./ch_data/node1:/etc/clickhouse-server
+    depends_on:
+      - zookeeper
+
 
 volumes:
   zookeeper_data:
