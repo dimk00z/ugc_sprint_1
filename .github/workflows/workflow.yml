@@ -20,19 +20,4 @@ jobs:
 
       - name: isort
         run: isort --check .
-# TODO update tests
-  # tests:
-  #   name: tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Setup python
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: 3.9.6
-
-  #     - name: Install requirements
-  #       run: pip install -r auth/requirements.dev.txt
-
-  #     - name: pytest
-  #       run: PYTHONPATH=auth/src pytest --disable-pytest-warnings -v -s tests/
+        
