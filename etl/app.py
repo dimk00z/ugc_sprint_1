@@ -1,5 +1,6 @@
 import json
 import logging
+from logging import config
 
 from clickhouse_driver.errors import Error
 from kafka import KafkaConsumer
@@ -46,6 +47,7 @@ def run(
 
 
 if __name__ == "__main__":
+    config.dictConfig(LOGGING)
     settings = get_settings()
     consumer = ETLKafkaConsumer(**settings.kafka_settings.dict()).get_consumer()
     ch_driver = ETLClickhouseDriver(settings.ch_settings.host)
