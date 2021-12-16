@@ -17,34 +17,22 @@ class UGCKafkaProducer:
     def serializer(value):
         return json.dumps(value).encode()
 
-    @staticmethod
-    def get_key():
-        return str(uuid4()).encode()
-
-    def get_producer(self) -> AIOKafkaProducer:
-        return AIOKafkaProducer(
-            bootstrap_servers=self.hosts,
-            value_serializer=UGCKafkaProducer.serializer,
-            compression_type="gzip",
-        )
-
     def __init__(self) -> None:
         self.hosts = ",".join(get_settings().kafka_settings.hosts)
         self.topic = get_settings().kafka_settings.topic
 
-    async def produce(self, request_for_ugs: EventForUGS):
-        producer = self.get_producer()
+    def _get_key(self) -> str:
+        return str(uuid4()).encode()
+
+    async def produce(self, request_for_ugs: EventForUGS, producer: AIOKafkaProducer):
         was_produced = False
         try:
-            await producer.start()
-            key = UGCKafkaProducer.get_key()
+            key = self._get_key()
             await producer.send(self.topic, request_for_ugs.dict(), key=key)
             was_produced = True
             logger.info("Message sent with uuid=%s", key.decode())
         except KafkaError as kafka_error:
             logger.exception(kafka_error)
-        finally:
-            await producer.stop()
         return was_produced
 
     async def send_batch(self, producer, batch):
@@ -55,16 +43,16 @@ class UGCKafkaProducer:
             "%d messages sent to partition %d" % (batch.record_count(), partition)
         )
 
-    async def batch_produce(self, requests: list[EventForUGS]):
-        producer = self.get_producer()
+    async def batch_produce(
+        self, requests: list[EventForUGS], producer: AIOKafkaProducer
+    ):
         was_produced = False
         try:
-            await producer.start()
             batch = producer.create_batch()
             submission = 0
             while submission < len(requests):
                 metadata = batch.append(
-                    key=UGCKafkaProducer.get_key(),
+                    key=self._get_key(),
                     value=UGCKafkaProducer.serializer(requests[submission].dict()),
                     timestamp=None,
                 )
@@ -77,8 +65,6 @@ class UGCKafkaProducer:
             was_produced = True
         except KafkaError as kafka_error:
             logger.exception(kafka_error)
-        finally:
-            await producer.stop()
         return was_produced
 
 
