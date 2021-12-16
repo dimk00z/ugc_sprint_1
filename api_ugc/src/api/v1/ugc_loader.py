@@ -32,9 +32,9 @@ async def inner_produce(event_for_ugs: EventForUGS):
         movie_id=event_for_ugs.payload.movie_id,
         user_id=event_for_ugs.payload.user_id,
     )
-    if was_produced:
-        return result
-    raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=result)
+    if not was_produced:
+        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=result)
+    return result
 
 
 @router.post(
@@ -47,9 +47,9 @@ async def batch_inner(events_for_ugs: list[EventForUGS]):
     logger.debug(events_for_ugs)
     was_produced: bool = await ugc_kafka_producer.batch_produce(requests=events_for_ugs)
     result = {"batch_produced": was_produced}
-    if was_produced:
-        return result
-    raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=result)
+    if not was_produced:
+        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=result)
+    return result
 
 
 if get_settings().app.is_debug:
@@ -69,6 +69,6 @@ if get_settings().app.is_debug:
         print(len(batch))
         was_produced: bool = await ugc_kafka_producer.batch_produce(requests=batch)
         result = {"batch_produced": was_produced}
-        if was_produced:
-            return result
-        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=result)
+        if not was_produced:
+            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=result)
+        return result
