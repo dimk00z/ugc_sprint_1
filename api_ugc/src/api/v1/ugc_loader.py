@@ -22,7 +22,7 @@ def create_answer(*, was_loaded: bool, movie_id: UUID, user_id: UUID) -> dict:
     }
 
 
-@router.post("/produce", summary="UGC produce endpoint", status_code=201)
+@router.post("/produce", summary="UGC produce endpoint", status_code=HTTPStatus.CREATED)
 async def inner_produce(event_for_ugs: EventForUGS):
     """Эндпоит пишет сообщение об одном событии в Kafka"""
     logger.debug(event_for_ugs)
@@ -37,7 +37,11 @@ async def inner_produce(event_for_ugs: EventForUGS):
     raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=result)
 
 
-@router.post("/batch_produce", summary="UGC batch produce endpoint", status_code=201)
+@router.post(
+    "/batch_produce",
+    summary="UGC batch produce endpoint",
+    status_code=HTTPStatus.CREATED,
+)
 async def batch_inner(events_for_ugs: list[EventForUGS]):
     """Эндпоит пишет список записей об событиях в Kafka"""
     logger.debug(events_for_ugs)
@@ -55,7 +59,7 @@ if get_settings().app.is_debug:
     @router.post(
         "/random_batch_produce",
         summary="Debug UGC batch produce endpoint",
-        status_code=201,
+        status_code=HTTPStatus.CREATED,
     )
     async def random_batch_produce(
         batch_count: int = Query(default=500, alias="batch_count")
