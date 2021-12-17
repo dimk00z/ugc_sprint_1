@@ -81,10 +81,10 @@ if get_settings().app.is_debug:
         """Эндпоит генерирует {batch_count} валидных сообщений для тестов"""
         batch = [create_random_event() for _ in range(batch_count)]
         print(len(batch))
-        was_produced: bool = await ugc_kafka_producer.batch_produce(
+        were_produced: bool = await ugc_kafka_producer.batch_produce(
             requests=batch, producer=producer
         )
-        result = {"batch_produced": was_produced}
-        if not was_produced:
+        result = {"batch_produced": were_produced}
+        if not were_produced:
             raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=result)
         return result

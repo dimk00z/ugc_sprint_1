@@ -1,7 +1,6 @@
 import json
 import logging
 from random import choice
-from unittest import result
 from uuid import uuid4
 
 from aiokafka import AIOKafkaProducer
@@ -65,7 +64,7 @@ class UGCKafkaProducer:
     async def batch_produce(
         self, requests: list[EventForUGS], producer: AIOKafkaProducer
     ):
-        was_produced = False
+        were_produced = []
         parsed_batch = self._parse_batch_by_event_type(requests=requests)
         for topic, topic_batch in parsed_batch.items():
             try:
@@ -85,10 +84,11 @@ class UGCKafkaProducer:
                         continue
                     submission += 1
                 await self.send_batch(producer=producer, batch=batch, topic=topic)
-                was_produced = True
+                were_produced.append(True)
             except KafkaError as kafka_error:
                 logger.exception(kafka_error)
-        return was_produced
+                were_produced.append(False)
+        return all(were_produced)
 
 
 ugc_kafka_producer = UGCKafkaProducer()
