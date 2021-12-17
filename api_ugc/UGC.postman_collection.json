@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "load_inner_valid",
+			"name": "produce",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -42,7 +42,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event\": \"string\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n},\r\n{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event\": \"string\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n},\r\n{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event\": \"string\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n},\r\n{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event\": \"string\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n}\r\n]",
+					"raw": "[{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"event_type\": \"movie_dislike\",\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n},\r\n{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"event_type\": \"movie_dislike\",\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n},\r\n{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"event_type\": \"movie_dislike\",\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n},\r\n{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"event_type\": \"movie_dislike\",\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n}\r\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -102,13 +102,13 @@
 			"response": []
 		},
 		{
-			"name": "load_inner_invalid",
+			"name": "produce_invalid",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"payload\": {\r\n    \"movie_id\": \"1\",\r\n    \"user_id\": \"2\",\r\n    \"event\": \"string\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n}",
+					"raw": "{\r\n  \"payload\": {\r\n    \"movie_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"user_id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"event_data\": \"string\",\r\n    \"event_timestamp\": 0\r\n  },\r\n  \"event_type\": 1,\r\n  \"language\": \"string\",\r\n  \"timezone\": \"string\",\r\n  \"ip\": \"string\",\r\n  \"version\": \"string\",\r\n  \"client_data\": \"string\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -116,7 +116,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/v1/load_inner",
+					"raw": "http://localhost:8000/api/v1/produce",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -125,7 +125,7 @@
 					"path": [
 						"api",
 						"v1",
-						"load_inner"
+						"produce"
 					]
 				}
 			},
