@@ -1,12 +1,16 @@
+import asyncio
 import logging
 
 import uvicorn
+from aiokafka import AIOKafkaProducer
 from api.v1 import ugc_loader
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
+from storage import kafka
 
 from core.logger import LOGGING
 from core.settings import get_settings
+from services.ugc_kafka_producer import UGCKafkaProducer
 
 app = FastAPI(
     docs_url="/api/openapi",
@@ -17,7 +21,29 @@ app = FastAPI(
     version="1.0.0",
 )
 
-if get_settings().app.should_check_auth:
+loop = asyncio.get_event_loop()
+
+# aioproducer = get_aioproducer(loop=loop)
+kafka.aioproducer = AIOKafkaProducer(
+    loop=loop,
+    client_id=get_settings().kafka_settings.project_name,
+    bootstrap_servers=",".join(get_settings().kafka_settings.hosts),
+    value_serializer=UGCKafkaProducer.serializer,
+    compression_type="gzip",
+)
+
+
+@app.on_event("startup")
+async def startup_event():
+    await kafka.aioproducer.start()
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await kafka.aioproducer.stop()
+
+
+if get_settings().app.should_check_jwt:
     from core.middleware import apply_middleware
 
     apply_middleware(app=app)
