@@ -17,7 +17,16 @@ class AppSettings(BaseSettings):
 
 class KafkaSettings(BaseSettings):
     hosts: list[str] = Field(["127.0.0.1:29092"], env="KAFKA_HOSTS")
-    topic: str = Field("movie_topic", env="KAFKA_TOPIC")
+    topics: list[str] = Field(
+        [
+            "movie_like",
+            "movie_dislike",
+            "movie_share",
+            "movie_comment",
+            "movie_watch_history",
+        ],
+        env="KAFKA_TOPIC",
+    )
     project_name: str = Field("movie_kafka_producer", env="PROJECT_NAME")
 
 
