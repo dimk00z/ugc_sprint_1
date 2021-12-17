@@ -11,13 +11,14 @@ class AppSettings(BaseSettings):
 
 class KafkaSettings(BaseSettings):
     host: list[str] = Field(["localhost:29092"], env="KAFKA_HOST")
-    topic: str = Field("movie_topic", env="KAFKA_TOPIC")
+    topics: list[str] = Field(["movie_topic"], env="EVENT_TYPES")
     group_id: str = Field("", env="KAFKA_GROUP_ID")
 
 
 class ClickHouseSettings(BaseSettings):
     host: str = Field("localhost:9000", env="CH_HOST")
     db: str = Field("movies", env="CH_DB")
+    tables: list[str] = Field(["movie_topic"], env="EVENT_TYPES")
 
 
 class Settings(BaseSettings):
