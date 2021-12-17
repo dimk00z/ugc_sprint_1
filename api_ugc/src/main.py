@@ -43,7 +43,7 @@ async def shutdown_event():
     await kafka.aioproducer.stop()
 
 
-if get_settings().app.should_check_auth:
+if get_settings().app.should_check_jwt:
     from core.middleware import apply_middleware
 
     apply_middleware(app=app)
