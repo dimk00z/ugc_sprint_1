@@ -30,7 +30,6 @@ async def inner_produce(
 ):
     """Эндпоит пишет сообщение об одном событии в Kafka"""
     logger.debug(event_for_ugs)
-    print(producer)
 
     was_produced: bool = await ugc_kafka_producer.produce(
         request_for_ugs=event_for_ugs, producer=producer
@@ -80,7 +79,6 @@ if get_settings().app.is_debug:
     ):
         """Эндпоит генерирует {batch_count} валидных сообщений для тестов"""
         batch = [create_random_event() for _ in range(batch_count)]
-        print(len(batch))
         were_produced: bool = await ugc_kafka_producer.batch_produce(
             requests=batch, producer=producer
         )
