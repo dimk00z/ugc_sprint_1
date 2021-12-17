@@ -7,7 +7,6 @@ from pydantic import BaseModel
 class Payload(BaseModel):
     movie_id: UUID
     user_id: UUID
-    event: str
     event_data: Optional[str]
     event_timestamp: int
 
@@ -25,3 +24,4 @@ class EventForUGS(BaseModel):
     ip: Optional[str]
     version: Optional[str]
     client_data: Optional[str]
+    event_type: str
