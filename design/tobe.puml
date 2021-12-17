@@ -58,21 +58,25 @@ nginx2 <--> [FastAPI]: proxy
 [FastAPI] <..> nginx3: http
 
 rectangle TODO {
-package "UGC Service" {
-    interface nginx as nginx4
-    database Kafka
-    database ClickHouse
-    [UGC API]
-    [ETL]
+    package "UGC Service" {
+        interface nginx as nginx4
+        database Kafka
+        database ClickHouse
+        [UGC API]
+        [ETL]
+    }
 }
-}
+
+note as jwt_auth
+    JWT auth
+end note
 
 [UGC API] --> Kafka: save
 [ETL] -> Kafka: extract
 [ETL] -left-> ClickHouse: load
 nginx4 <-> [UGC API]: proxy
-[UGC API] <..> nginx3: http
 Clients <..> nginx4: http
 Analyst <.up.> ClickHouse
+[UGC API] <..> jwt_auth
 
 @enduml
